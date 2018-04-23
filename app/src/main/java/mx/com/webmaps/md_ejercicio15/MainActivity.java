@@ -22,12 +22,21 @@ public class MainActivity extends AppCompatActivity {
 
         webView.loadUrl("http://nba.com");
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                webView.reload();
+            }
+        });
+
         webViewClient= new WebViewClient(){
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
 
                 System.out.println("finish");
+
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
@@ -35,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
                 super.onPageCommitVisible(view, url);
 
                 System.out.println("On page commit visible");
+
+                swipeRefreshLayout.setColorSchemeResources(R.color.colorFinishRefresh);
             }
 
             @Override
@@ -42,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
                 super.onLoadResource(view, url);
 
                 System.out.println("on load");
+
+                swipeRefreshLayout.setColorSchemeResources(R.color.colorLoadRefresh);
             }
         };
 
